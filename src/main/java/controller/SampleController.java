@@ -8,19 +8,22 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.LocaleResolver;
+import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 import service.SampleService;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.Locale;
 
 @Controller
 public class SampleController {
     @Autowired
     SampleService sampleService;
 
-
     @RequestMapping("/")
-    String home(HttpServletRequest request) {
+    String home(HttpServletRequest request, HttpServletResponse response) {
         request.setAttribute("msg","hello th");
         return "/index";
     }
