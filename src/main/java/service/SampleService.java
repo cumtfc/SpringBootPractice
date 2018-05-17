@@ -3,8 +3,6 @@ package service;
 import domain.UserRepository;
 import entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -12,6 +10,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -26,10 +25,10 @@ public class SampleService {
     @Autowired
     UserRepository userRepository;
 
-    public String testJPA(){
+    public List<User> testJPA(){
         userRepository.save(new User("chuchu",18));
         userRepository.save(new User("chushao",19));
-        return "success";
+        return userRepository.findAll();
     }
 
     public String testRedis(){

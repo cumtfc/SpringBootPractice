@@ -2,6 +2,7 @@ package controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.context.annotation.Import;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,27 +17,19 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
-import java.util.Locale;
+import java.util.*;
 
 @Controller
 public class SampleController {
     @Autowired
     SampleService sampleService;
 
-    @Autowired
-    DataSource dataSource;
-
     @RequestMapping("/")
     String home(HttpServletRequest request, HttpServletResponse response) {
-        request.setAttribute("msg","hello th");
-        System.out.println(dataSource);
-        return "/index";
-    }
 
-    @RequestMapping("/testJPA")
-    @ResponseBody
-    String testJPA(String info) {
-        return sampleService.testJPA();
+        request.setAttribute("msg","hello th");
+        request.setAttribute("allProducts",sampleService.testJPA());
+        return "/index";
     }
 
     @RequestMapping("/testPathVariable/{string}")
