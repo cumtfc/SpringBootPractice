@@ -15,6 +15,7 @@ import service.SampleService;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.sql.DataSource;
 import java.util.Locale;
 
 @Controller
@@ -22,9 +23,13 @@ public class SampleController {
     @Autowired
     SampleService sampleService;
 
+    @Autowired
+    DataSource dataSource;
+
     @RequestMapping("/")
     String home(HttpServletRequest request, HttpServletResponse response) {
         request.setAttribute("msg","hello th");
+        System.out.println(dataSource);
         return "/index";
     }
 
