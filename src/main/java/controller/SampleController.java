@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import service.SampleService;
 
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+
 @Controller
 public class SampleController {
     @Autowired
@@ -17,10 +20,9 @@ public class SampleController {
 
 
     @RequestMapping("/")
-    @ResponseBody
-    String home() {
-        return sampleService.testAutoCache("test3");
-//      return sampleService.testRedis();
+    String home(HttpServletRequest request) {
+        request.setAttribute("msg","hello th");
+        return "/index";
     }
 
     @RequestMapping("/testJPA")
