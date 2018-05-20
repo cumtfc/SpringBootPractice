@@ -1,14 +1,20 @@
 package entity;
 
+import org.hibernate.annotations.Cascade;
+
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Entity
-public class User {
+public class User implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
+
+    @Column(nullable = false)
+    private String userSn;
 
     @Column(nullable = false)
     private String name;
@@ -16,12 +22,27 @@ public class User {
     @Column(nullable = false)
     private Integer age;
 
+    @ManyToOne(cascade={CascadeType.ALL},fetch = FetchType.LAZY)
+    @JoinColumn(name = "departmentSn",referencedColumnName = "departmentSn")
+    private Department department;
+
+    @OneToOne(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
+    @JoinColumn(name = "accountNum", referencedColumnName = "accountNum")
+    private Account account;
+
     public User() {
     }
 
     public User(String name, Integer age) {
         this.name = name;
         this.age = age;
+    }
+
+    public User(String userSn, String name, Integer age, Department department) {
+        this.userSn = userSn;
+        this.name = name;
+        this.age = age;
+        this.department = department;
     }
 
     public Long getId() {
@@ -55,5 +76,29 @@ public class User {
                 ", name='" + name + '\'' +
                 ", age=" + age +
                 '}';
+    }
+
+    public String getUserSn() {
+        return userSn;
+    }
+
+    public void setUserSn(String userSn) {
+        this.userSn = userSn;
+    }
+
+    public Department getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(Department department) {
+        this.department = department;
+    }
+
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
     }
 }
