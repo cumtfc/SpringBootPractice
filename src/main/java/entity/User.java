@@ -1,10 +1,8 @@
 package entity;
 
-import org.hibernate.annotations.Cascade;
-
 import javax.persistence.*;
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.util.Set;
 
 @Entity
 public class User implements Serializable {
@@ -22,13 +20,16 @@ public class User implements Serializable {
     @Column(nullable = false)
     private Integer age;
 
-    @ManyToOne(cascade={CascadeType.ALL},fetch = FetchType.LAZY)
-    @JoinColumn(name = "departmentSn",referencedColumnName = "departmentSn")
+    @ManyToOne(cascade = {CascadeType.ALL})
+    @JoinColumn(name = "departmentSn", referencedColumnName = "departmentSn")
     private Department department;
 
-    @OneToOne(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
-    @JoinColumn(name = "accountNum", referencedColumnName = "accountNum")
+    @OneToOne(cascade = {CascadeType.ALL})
+    @JoinColumn(name = "accountNum", referencedColumnName = "accountNum", foreignKey = @ForeignKey(foreignKeyDefinition = "foreign key (account_num) references account (account_num) on delete cascade on update cascade"))
     private Account account;
+
+    @ManyToMany(cascade = {CascadeType.ALL},mappedBy = "users")
+    private Set<Course> courses;
 
     public User() {
     }
@@ -100,5 +101,13 @@ public class User implements Serializable {
 
     public void setAccount(Account account) {
         this.account = account;
+    }
+
+    public Set<Course> getCourses() {
+        return courses;
+    }
+
+    public void setCourses(Set<Course> courses) {
+        this.courses = courses;
     }
 }

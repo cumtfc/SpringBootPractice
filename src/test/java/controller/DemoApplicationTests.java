@@ -12,6 +12,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -34,6 +35,7 @@ public class DemoApplicationTests {
     }
 
     @Test
+    @Transactional
     public void testUserToDepartment(){
         Department department = new Department();
         department.setDepartmentName("testDepartment");
@@ -46,30 +48,37 @@ public class DemoApplicationTests {
 //        userRepository.saveAll(users);
         department.setUserSet(users);
         departmentRepository.save(department);
-
-        for (User user : userRepository.findAll()) {
-            System.out.println(user.getDepartment().getDepartmentName());
-        }
-
-        for (Department department1 : departmentRepository.findAll()) {
-            for (User user : department1.getUserSet()) {
-                System.out.println(user.getUserSn());
-            }
-        }
+        department.setUserSet(null);
+        departmentRepository.save(department);
     }
 
     @Test
-    public void testUserToSeat(){
+    public void testOneToOne(){
         User user1 = new User("u1", "fengchu", 18, null);
         Account account1 = new Account();
         account1.setAccountNum(21L);
         user1.setAccount(account1);
 //        userRepository.save(user1);
+        account1.setUser(user1);
         accountRepository.save(account1);
 //        System.out.println(accountRepository.findAll().get(0).getUser());
-//        account1.setAccountNum(154545515);
+        account1.setAccountNum(154545515L);
+        accountRepository.save(account1);
 //        userRepository.delete(user1);
 
+    }
+
+    @Test
+    public void testSaveManyObject(){
+        Department department = new Department();
+        department.setDepartmentSn("testdepartasdasda");
+        department.setDepartmentName("cesasda");
+        User user1 = new User("u1", "fengchu", 18, department);
+        User user2 = new User("u2", "fengchu", 18, department);
+        User user3 = new User("u3", "fengchu", 18, department);
+        userRepository.save(user1);
+        userRepository.save(user2);
+        userRepository.save(user3);
     }
 
 }
