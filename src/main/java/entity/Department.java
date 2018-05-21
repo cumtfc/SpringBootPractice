@@ -2,12 +2,12 @@ package entity;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.List;
+import java.util.Set;
 
 @Entity
 public class Department implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(nullable = false)
@@ -16,9 +16,8 @@ public class Department implements Serializable {
     @Column(nullable = false)
     private String departmentSn;
 
-    @OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
-    @JoinColumn(name = "departmentSn", referencedColumnName = "departmentSn")
-    private List<User> userList;
+    @OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY,mappedBy = "department")
+    private Set<User> userSet;
 
 
     public Integer getId() {
@@ -45,11 +44,11 @@ public class Department implements Serializable {
         this.departmentSn = departmentSn;
     }
 
-    public List<User> getUserList() {
-        return userList;
+    public Set<User> getUserSet() {
+        return userSet;
     }
 
-    public void setUserList(List<User> userList) {
-        this.userList = userList;
+    public void setUserSet(Set<User> userSet) {
+        this.userSet = userSet;
     }
 }

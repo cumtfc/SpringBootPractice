@@ -13,6 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = DemoApplication.class)
 public class DemoApplicationTests {
@@ -33,23 +36,23 @@ public class DemoApplicationTests {
     @Test
     public void testUserToDepartment(){
         Department department = new Department();
-        department.setDepartmentName("测试部门");
+        department.setDepartmentName("testDepartment");
         department.setDepartmentSn("testSn");
+        User user1 = new User("u1", "fengchu", 18, department);
+        User user2 = new User("u2", "fengchuchu", 8, department);
+        Set<User> users = new HashSet<>();
+        users.add(user1);
+        users.add(user2);
+//        userRepository.saveAll(users);
+        department.setUserSet(users);
         departmentRepository.save(department);
-        User user1 = new User("u1", "fengchu", 18, null);
-        User user2 = new User("u2", "fengchuchu", 8, null);
-        userRepository.save(user1);
-        userRepository.save(user2);
-        user1.setDepartment(department);
-        user2.setDepartment(department);
-        userRepository.save(user1);
-//        userRepository.save(user2);
+
         for (User user : userRepository.findAll()) {
             System.out.println(user.getDepartment().getDepartmentName());
         }
 
         for (Department department1 : departmentRepository.findAll()) {
-            for (User user : department1.getUserList()) {
+            for (User user : department1.getUserSet()) {
                 System.out.println(user.getUserSn());
             }
         }
@@ -61,9 +64,9 @@ public class DemoApplicationTests {
         Account account1 = new Account();
         account1.setAccountNum(21L);
         user1.setAccount(account1);
-        userRepository.save(user1);
+//        userRepository.save(user1);
         accountRepository.save(account1);
-        System.out.println(accountRepository.findAll().get(0).getUser());
+//        System.out.println(accountRepository.findAll().get(0).getUser());
 //        account1.setAccountNum(154545515);
 //        userRepository.delete(user1);
 

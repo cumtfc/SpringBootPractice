@@ -1,5 +1,9 @@
 package controller;
 
+import domain.DepartmentRepository;
+import domain.UserRepository;
+import entity.Department;
+import entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.configurationprocessor.json.JSONObject;
@@ -24,6 +28,10 @@ public class SampleController {
     @Autowired
     SampleService sampleService;
 
+    @Autowired
+    DepartmentRepository departmentRepository;
+    @Autowired
+    UserRepository userRepository;
     @RequestMapping("/")
     String home(HttpServletRequest request, HttpServletResponse response) {
 
