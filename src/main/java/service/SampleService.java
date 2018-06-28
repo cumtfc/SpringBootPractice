@@ -1,6 +1,10 @@
 package service;
 
+import domain.CourseRepository;
+import domain.DepartmentRepository;
 import domain.UserRepository;
+import entity.Course;
+import entity.Department;
 import entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
@@ -8,10 +12,9 @@ import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 @EnableCaching
@@ -25,9 +28,13 @@ public class SampleService {
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    DepartmentRepository departmentRepository;
+
+    @Autowired
+    CourseRepository courseRepository;
+    @Transactional
     public List<User> testJPA(){
-        userRepository.save(new User("chuchu",18));
-        userRepository.save(new User("chushao",19));
         return userRepository.findAll();
     }
 
