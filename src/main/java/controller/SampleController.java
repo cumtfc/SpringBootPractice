@@ -2,29 +2,20 @@ package controller;
 
 import domain.DepartmentRepository;
 import domain.UserRepository;
-import entity.Department;
-import entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.configurationprocessor.json.JSONObject;
-import org.springframework.context.annotation.Import;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.LocaleResolver;
-import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 import service.SampleService;
 
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.sql.DataSource;
-import java.util.*;
 
 @Controller
 public class SampleController {
+
     @Autowired
     SampleService sampleService;
 
@@ -32,11 +23,12 @@ public class SampleController {
     DepartmentRepository departmentRepository;
     @Autowired
     UserRepository userRepository;
+
     @RequestMapping("/")
     String home(HttpServletRequest request, HttpServletResponse response) {
 
-        request.setAttribute("msg","hello th");
-        request.setAttribute("allProducts",sampleService.testJPA());
+        request.setAttribute("msg", "hello th");
+        request.setAttribute("allProducts", sampleService.testJPA());
         return "/index";
     }
 
